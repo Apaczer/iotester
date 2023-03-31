@@ -42,12 +42,36 @@ static const int SDL_WAKEUPEVENT = SDL_USEREVENT+1;
 #define PEPIN			((0x10010400 - GPIO_BASE) >> 2)
 #define PFPIN			((0x10010500 - GPIO_BASE) >> 2)
 
+#if defined(TARGET_MIYOO)
+#define BTN_X			SDLK_LSHIFT
+#define BTN_A			SDLK_LALT
+#define BTN_B			SDLK_LCTRL
+#define BTN_Y			SDLK_SPACE
+#define BTN_L1			SDLK_TAB
+#define BTN_R1			SDLK_BACKSPACE
+#define BTN_L2			SDLK_PAGEUP
+#define BTN_R2			SDLK_PAGEDOWN
+#define BTN_L3			SDLK_RALT
+#define BTN_R3			SDLK_RSHIFT
+#define BTN_START		SDLK_RETURN
+#define BTN_SELECT		SDLK_ESCAPE
+#define BTN_BACKLIGHT	SDLK_3
+#define BTN_POWER		SDLK_RCTRL
+#define BTN_UP			SDLK_UP
+#define BTN_DOWN		SDLK_DOWN
+#define BTN_LEFT		SDLK_LEFT
+#define BTN_RIGHT		SDLK_RIGHT
+#define GPIO_TV			SDLK_WORLD_0
+#define GPIO_MMC		SDLK_WORLD_1
+#define GPIO_USB		SDLK_WORLD_2
+#define GPIO_PHONES		SDLK_WORLD_3
+#elif defined(TARGET_RETROFW)
 #define BTN_X			SDLK_SPACE
 #define BTN_A			SDLK_LCTRL
 #define BTN_B			SDLK_LALT
 #define BTN_Y			SDLK_LSHIFT
-#define BTN_L			SDLK_TAB
-#define BTN_R			SDLK_BACKSPACE
+#define BTN_L1			SDLK_TAB
+#define BTN_R1			SDLK_BACKSPACE
 #define BTN_START		SDLK_RETURN
 #define BTN_SELECT		SDLK_ESCAPE
 #define BTN_BACKLIGHT	SDLK_3
@@ -60,6 +84,30 @@ static const int SDL_WAKEUPEVENT = SDL_USEREVENT+1;
 #define GPIO_MMC		SDLK_WORLD_1
 #define GPIO_USB		SDLK_WORLD_2
 #define GPIO_PHONES		SDLK_WORLD_3
+#else
+#define BTN_X			SDLK_LSHIFT
+#define BTN_A			SDLK_LALT
+#define BTN_B			SDLK_LCTRL
+#define BTN_Y			SDLK_SPACE
+#define BTN_L1			SDLK_TAB
+#define BTN_R1			SDLK_BACKSPACE
+#define BTN_L2			SDLK_PAGEUP
+#define BTN_R2			SDLK_PAGEDOWN
+#define BTN_L3			SDLK_RALT
+#define BTN_R3			SDLK_RSHIFT
+#define BTN_START		SDLK_RETURN
+#define BTN_SELECT		SDLK_ESCAPE
+#define BTN_BACKLIGHT	SDLK_3
+#define BTN_POWER		SDLK_RCTRL
+#define BTN_UP			SDLK_UP
+#define BTN_DOWN		SDLK_DOWN
+#define BTN_LEFT		SDLK_LEFT
+#define BTN_RIGHT		SDLK_RIGHT
+#define GPIO_TV			SDLK_WORLD_0
+#define GPIO_MMC		SDLK_WORLD_1
+#define GPIO_USB		SDLK_WORLD_2
+#define GPIO_PHONES		SDLK_WORLD_3
+#endif
 
 const int	HAlignLeft		= 1,
 			HAlignRight		= 2,
@@ -131,7 +179,13 @@ void draw_background(const char buf[64]) {
 	SDL_BlitSurface(img, NULL, screen, &bgrect);
 
 	// title
+#if defined(TARGET_MIYOO)
+	draw_text(310, 4, "MiyooCFW", titleColor, VAlignBottom | HAlignRight);
+#elif defined(TARGET_RETROFW)
 	draw_text(310, 4, "RetroFW", titleColor, VAlignBottom | HAlignRight);
+#else
+	draw_text(310, 4, "LinuxOS", titleColor, VAlignBottom | HAlignRight);
+#endif
 	draw_text(10, 4, buf, titleColor, VAlignBottom);
 	draw_text(10, 230, "SELECT+START: Exit", txtColor, VAlignMiddle | HAlignLeft);
 }
@@ -317,8 +371,8 @@ int main(int argc, char* argv[]) {
 		if (keys[BTN_SELECT]) draw_point(70, 120, 10, 10);
 		if (keys[BTN_POWER]) draw_point(0, 85, 10, 20);
 		if (keys[BTN_BACKLIGHT]) draw_point(150, 0, 20, 10);
-		if (keys[BTN_L]) draw_point(5, 5, 35, 15);
-		if (keys[BTN_R]) draw_point(280, 5, 35, 15);
+		if (keys[BTN_L1]) draw_point(5, 5, 35, 15);
+		if (keys[BTN_R1]) draw_point(280, 5, 35, 15);
 		if (keys[BTN_LEFT]) draw_point(25, 55, 20, 20);
 		if (keys[BTN_RIGHT]) draw_point(65, 55, 20, 20);
 		if (keys[BTN_UP]) draw_point(45, 35, 20, 20);
