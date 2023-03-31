@@ -373,6 +373,10 @@ int main(int argc, char* argv[]) {
 		if (keys[BTN_BACKLIGHT]) draw_point(150, 0, 20, 10);
 		if (keys[BTN_L1]) draw_point(5, 5, 35, 15);
 		if (keys[BTN_R1]) draw_point(280, 5, 35, 15);
+		if (keys[BTN_L2]) draw_point(40, 5, 20, 15);
+		if (keys[BTN_R2]) draw_point(260, 5, 20, 15);
+		if (keys[BTN_L3]) draw_point(50, 60, 10, 10);
+		if (keys[BTN_R3]) draw_point(265, 65, 10, 10);
 		if (keys[BTN_LEFT]) draw_point(25, 55, 20, 20);
 		if (keys[BTN_RIGHT]) draw_point(65, 55, 20, 20);
 		if (keys[BTN_UP]) draw_point(45, 35, 20, 20);
