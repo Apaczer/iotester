@@ -9,12 +9,16 @@ SYSROOT     := $(shell $(CC) --print-sysroot)
 SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
 SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
 
-CFLAGS = -ggdb -DTARGET_MIYOO -DTARGET=$(TARGET) -D__BUILDTIME__="$(BUILDTIME)" -DLOG_LEVEL=3 -g3 $(SDL_CFLAGS) #-I$(CHAINPREFIX)/usr/include/ -I$(SYSROOT)/usr/include/  -I$(SYSROOT)/usr/include/SDL/ # -mhard-float
+CFLAGS = -ggdb -DTARGET_MIYOO -DTARGET_$(TARGET) -D__BUILDTIME__="$(BUILDTIME)" -DLOG_LEVEL=3 -g3 $(SDL_CFLAGS) #-I$(CHAINPREFIX)/usr/include/ -I$(SYSROOT)/usr/include/  -I$(SYSROOT)/usr/include/SDL/ # -mhard-float
 CXXFLAGS = $(CFLAGS)
 LDFLAGS = $(SDL_LIBS) -lfreetype -lSDL -lSDL_image -lSDL_ttf
 
 all:
+ifeq ($(TARGET), XYC)
+	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o iotester_xyc
+else
 	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o iotester
+endif
 
 clean:
-	rm -rf iotester
+	rm -rf iotester iotester_xyc
