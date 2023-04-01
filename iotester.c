@@ -306,7 +306,7 @@ int main(int argc, char* argv[]) {
 #if defined(TARGET_XYC)
 	SDL_Surface* _img = IMG_Load("backdrop_xyc.png");
 #else
-	SDL_Surface* _img = IMG_Load("backdrop.png");
+	SDL_Surface* _img = IMG_Load("backdrop_default.png");
 #endif
 	img = SDL_DisplayFormat(_img);
 	SDL_FreeSurface(_img);
