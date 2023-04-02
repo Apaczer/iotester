@@ -15,10 +15,12 @@ LDFLAGS = $(SDL_LIBS) -lfreetype -lSDL -lSDL_image -lSDL_ttf
 
 all:
 ifeq ($(TARGET), XYC)
-	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o iotester_xyc
+	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o xyc_iotester
+else ifeq ($(TARGET), BITTBOY)
+	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o bittboy_iotester
 else
-	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o iotester
+	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o default_iotester
 endif
 
 clean:
-	rm -rf iotester iotester_xyc
+	rm -rf *iotester

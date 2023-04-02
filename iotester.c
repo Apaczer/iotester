@@ -305,6 +305,8 @@ int main(int argc, char* argv[]) {
 
 #if defined(TARGET_XYC)
 	SDL_Surface* _img = IMG_Load("backdrop_xyc.png");
+#elif defined(TARGET_BITTBOY)
+	SDL_Surface* _img = IMG_Load("backdrop_bittboy.png");
 #else
 	SDL_Surface* _img = IMG_Load("backdrop_default.png");
 #endif
@@ -325,11 +327,11 @@ int main(int argc, char* argv[]) {
 #endif
 
 	int loop = 1, running = 0;
-#if defined(TARGET_XYC)
+#if defined(TARGET_XYC) || defined(TARGET_BITTBOY)
 	do {
 		draw_background(title);
 
-		int nextline = 12;	
+		int nextline = 15;	
 
 		if (event.key.keysym.sym) {
 			sprintf(buf, "Last key: %s", SDL_GetKeyName(event.key.keysym.sym));
@@ -415,6 +417,26 @@ int main(int argc, char* argv[]) {
 		if (keys[BTN_B]) draw_point(139, 193, 20, 20);
 		if (keys[BTN_X]) draw_point(139, 164, 20, 20);
 		if (keys[BTN_Y]) draw_point(111, 172, 20, 20);
+#elif defined(TARGET_BITTBOY)
+		// if (keys[BTN_SELECT] && keys[BTN_START]) loop = 0;
+		if (keys[BTN_START]) draw_point(81, 206, 20, 10);
+		if (keys[BTN_SELECT]) draw_point(58, 206, 20, 10);
+		if (keys[BTN_POWER]) draw_point(81, 128, 12, 12);
+		if (keys[BTN_BACKLIGHT]) draw_point(150, 0, 20, 10);
+		if (keys[BTN_L1]) draw_point(0, 0, 17, 17);
+		if (keys[BTN_R1]) draw_point(153, 0, 17, 17);
+		if (keys[BTN_L2]) draw_point(17, 0, 17, 17);
+		if (keys[BTN_R2]) draw_point(136, 0, 17, 17);
+		if (keys[BTN_L3]) draw_point(50, 60, 10, 10);
+		if (keys[BTN_R3]) draw_point(265, 65, 10, 10);
+		if (keys[BTN_LEFT]) draw_point(14, 153, 20, 20);
+		if (keys[BTN_RIGHT]) draw_point(54, 153, 20, 20);
+		if (keys[BTN_UP]) draw_point(34, 133, 20, 20);
+		if (keys[BTN_DOWN]) draw_point(34, 173, 20, 20);
+		if (keys[BTN_A]) draw_point(115, 170, 20, 20);
+		if (keys[BTN_B]) draw_point(95, 150, 20, 20);
+		if (keys[BTN_X]) draw_point(135, 150, 20, 20);
+		if (keys[BTN_Y]) draw_point(115, 130, 20, 20);
 #else
 		// if (keys[BTN_SELECT] && keys[BTN_START]) loop = 0;
 		if (keys[BTN_START]) draw_point(70, 100, 10, 10);
