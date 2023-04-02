@@ -23,8 +23,8 @@ make -f Makefile.miyoo clean
 make -f Makefile.miyoo
 ```
 
-For XYC version add ``TARGET=XYC`` to passed variables before compiling.
+For XYC version add ``TARGET=XYC`` to passed variables or BITTBOY before compiling.
 
 ## FAQ
 Q) _What version should I use?_  
-A:  For XYC Q8 and SUP M3 devices it is recommended to use ``xyc`` binary and for everything else ``pocketgo`` as generic console of MiyooCFW 2.0
+A:  For XYC Q8 and SUP M3 it is recommended to use ``xyc`` binary, for BITTBOY the ``bittboy`` and ``default`` for everything else as generic console.
