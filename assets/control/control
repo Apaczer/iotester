@@ -1,0 +1,7 @@
+Package: iotester
+Version: 1.1
+Description: IO tester for MIYOO
+Section: base
+Priority: optional
+Maintainer: Apacz
+Architecture: all
