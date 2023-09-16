@@ -1,0 +1,3 @@
+default_iotester=DEFAULT
+bittboy_iotester=BITTBOY
+xyc_iotester=XYC

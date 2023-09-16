@@ -23,7 +23,7 @@ make -f Makefile.miyoo clean
 make -f Makefile.miyoo
 ```
 
-For XYC version add ``TARGET=XYC`` to passed variables or BITTBOY before compiling.
+For XYC version add ``DEVICE=XYC`` to passed variables or BITTBOY before compiling.
 
 ## FAQ
 Q) _What version should I use?_  

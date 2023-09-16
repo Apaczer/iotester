@@ -1,3 +1,12 @@
+VERSION := $(shell date +%Y-%m-%d\ %H:%M)
+RELEASEDIR = package
+TARGET = iotester
+ASSETSDIR = assets
+OPKG_ASSETSDIR = opkg_assets
+LINK=iotester.lnk
+SECTION=applications
+ALIASES=aliases.txt
+
 CHAINPREFIX :=/opt/miyoo
 CROSS_COMPILE := $(CHAINPREFIX)/usr/bin/arm-linux-
 
@@ -9,18 +18,43 @@ SYSROOT     := $(shell $(CC) --print-sysroot)
 SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
 SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
 
-CFLAGS = -ggdb -DTARGET_MIYOO -DTARGET_$(TARGET) -D__BUILDTIME__="$(BUILDTIME)" -DLOG_LEVEL=3 -g3 $(SDL_CFLAGS) #-I$(CHAINPREFIX)/usr/include/ -I$(SYSROOT)/usr/include/  -I$(SYSROOT)/usr/include/SDL/ # -mhard-float
+CFLAGS = -ggdb -DTARGET_MIYOO -DTARGET_$(DEVICE) -D__BUILDTIME__="$(BUILDTIME)" -DLOG_LEVEL=3 -g3 $(SDL_CFLAGS) #-I$(CHAINPREFIX)/usr/include/ -I$(SYSROOT)/usr/include/  -I$(SYSROOT)/usr/include/SDL/ # -mhard-float
 CXXFLAGS = $(CFLAGS)
 LDFLAGS = $(SDL_LIBS) -lfreetype -lSDL -lSDL_image -lSDL_ttf
 
 all:
-ifeq ($(TARGET), XYC)
+ifeq ($(DEVICE), XYC)
 	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o xyc_iotester
-else ifeq ($(TARGET), BITTBOY)
+else ifeq ($(DEVICE), BITTBOY)
 	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o bittboy_iotester
 else
 	$(CXX) $(CFLAGS) $(LDFLAGS) iotester.c -o default_iotester
 endif
 
+release:
+	$(CXX) -DTARGET_XYC $(CFLAGS) $(LDFLAGS)  iotester.c -o xyc_iotester
+	$(CXX) -DTARGET_BITTBOY $(CFLAGS) $(LDFLAGS)  iotester.c -o bittboy_iotester
+	$(CXX) -DTARGET_DEFAULT $(CFLAGS) $(LDFLAGS)  iotester.c -o default_iotester
+	mkdir -p $(RELEASEDIR)
+	cp *iotester $(RELEASEDIR)/
+
+ipk: release
+	@mkdir -p $(RELEASEDIR)
+	@mkdir -p $(RELEASEDIR)/data/mnt/apps/$(TARGET)
+	@mkdir -p $(RELEASEDIR)/data/mnt/gmenu2x/sections/applications
+	@mv $(RELEASEDIR)/*$(TARGET) $(RELEASEDIR)/data/mnt/apps/$(TARGET)/
+	@cp -r $(ASSETSDIR)/* $(RELEASEDIR)/data/mnt/apps/$(TARGET)
+	@cp -r $(OPKG_ASSETSDIR)/control $(RELEASEDIR)
+	@cp $(OPKG_ASSETSDIR)/$(LINK) $(RELEASEDIR)/data/mnt/gmenu2x/sections/$(SECTION)
+	@cp $(OPKG_ASSETSDIR)/$(ALIASES) $(RELEASEDIR)/data/mnt/apps/$(TARGET)
+	@sed "s/^Version:.*/Version: $(VERSION)/" $(OPKG_ASSETSDIR)/control/control > $(RELEASEDIR)/control/control
+	@echo 2.0 > $(RELEASEDIR)/debian-binary
+	@tar --owner=0 --group=0 -czvf $(RELEASEDIR)/data.tar.gz -C $(RELEASEDIR)/data/ .
+	@tar --owner=0 --group=0 -czvf $(RELEASEDIR)/control.tar.gz -C $(RELEASEDIR)/control/ .
+	@ar 	r $(TARGET).ipk $(RELEASEDIR)/control.tar.gz $(RELEASEDIR)/data.tar.gz $(RELEASEDIR)/debian-binary
+	@rm -rf $(RELEASEDIR)
+
 clean:
-	rm -rf *iotester
+	rm -rf $(RELEASEDIR)
+	rm -rf *$(TARGET)
+		rm -rf *$(TARGET).ipk
