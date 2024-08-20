@@ -1,22 +1,23 @@
 
-BUILDTIME=$(shell date +'\"%Y-%m-%d %H:%M\"')
+TARGET = iotester
 
-CC = arm-linux-gcc
-CXX = arm-linux-g++
-STRIP = arm-linux-strip
+CC = $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+STRIP = $(CROSS_COMPILE)strip
 
-SYSROOT     := $(shell $(CC) --print-sysroot)
-SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
-SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
+SYSROOT		?= $(shell $(CC) --print-sysroot)
+PKGS		:= sdl SDL_image SDL_ttf
+PKGS_CFLAGS	:= $(shell $(SYSROOT)/../../usr/bin/pkg-config --cflags $(PKGS))
+PKGS_LIBS	:= $(shell $(SYSROOT)/../../usr/bin/pkg-config --libs $(PKGS))
 
-CFLAGS = -DTARGET_RETROFW -D__BUILDTIME__="$(BUILDTIME)" -DLOG_LEVEL=0 -g0 -Os $(SDL_CFLAGS) -I/usr/include/ -I$(SYSROOT)/usr/include/  -I$(SYSROOT)/usr/include/SDL/
+CFLAGS = -O0 -ggdb -g3 -Os $(PKGS_CFLAGS) -I/usr/include/ -I$(SYSROOT)/usr/include/  -I$(SYSROOT)/usr/include/SDL/
 CFLAGS += -std=c++11 -fdata-sections -ffunction-sections -fno-exceptions -fno-math-errno -fno-threadsafe-statics
 
-LDFLAGS = $(SDL_LIBS) -lfreetype -lSDL_image -lSDL_ttf -lSDL -lpthread
-LDFLAGS += -Wl,--as-needed -Wl,--gc-sections -s
+LDFLAGS = $(SDL_LIBS) $(PKGS_LIBS)
+LDFLAGS += -Wl,--as-needed -Wl,--gc-sections
 
-pc:
-	gcc iotester.c -g -o iotester -ggdb -O0 -DDEBUG -lSDL_image -lSDL -lSDL_ttf -I/usr/include/SDL
+all:
+	gcc iotester.c -g -o $(TARGET) $(CFLAGS) $(LDFLAGS)
 
 clean:
-	rm -rf iotester
+	rm -rf $(TARGET)
