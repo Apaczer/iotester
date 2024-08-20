@@ -63,6 +63,11 @@ ipk: package
 	@ar r $(TARGET).ipk $(RELEASEDIR)/control.tar.gz $(RELEASEDIR)/data.tar.gz $(RELEASEDIR)/debian-binary
 	@rm -rf $(RELEASEDIR)
 
+gm2xpkg-ipk: release
+	@cp *$(TARGET) $(ASSETSDIR)/
+	gm2xpkg -i -c -f pkg.cfg
+	@rm $(ASSETSDIR)/*$(TARGET)
+
 clean:
 	rm -rf $(RELEASEDIR)
 	rm -f *$(TARGET)
