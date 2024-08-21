@@ -20,11 +20,11 @@
 
 static const int SDL_WAKEUPEVENT = SDL_USEREVENT+1;
 
-#ifndef TARGET_RETROFW
+#ifdef DEBUG
 	#define system(x) printf(x); printf("\n")
 #endif
 
-#ifndef TARGET_RETROFW
+#ifdef DEBUG
 	#define DBG(x) printf("%s:%d %s %s\n", __FILE__, __LINE__, __func__, x);
 #else
 	#define DBG(x)

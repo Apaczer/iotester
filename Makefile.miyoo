@@ -25,11 +25,11 @@ LDFLAGS = $(PKGS_LIBS)
 
 all:
 ifeq ($(DEVICE), XYC)
-	$(CXX) iotester.c -o xyc_$(TARGET) -ggdb -g3 $(CFLAGS) $(LDFLAGS)
+	$(CXX) iotester.c -o xyc_$(TARGET) -ggdb -g3 -DDEBUG $(CFLAGS) $(LDFLAGS)
 else ifeq ($(DEVICE), BITTBOY)
-	$(CXX) iotester.c -o bittboy_$(TARGET) -ggdb -g3 $(CFLAGS) $(LDFLAGS)
+	$(CXX) iotester.c -o bittboy_$(TARGET) -ggdb -g3 -DDEBUG $(CFLAGS) $(LDFLAGS)
 else
-	$(CXX) iotester.c -o default_$(TARGET) -ggdb -g3 $(CFLAGS) $(LDFLAGS)
+	$(CXX) iotester.c -o default_$(TARGET) -ggdb -g3 -DDEBUG $(CFLAGS) $(LDFLAGS)
 endif
 
 release:
