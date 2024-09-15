@@ -22,6 +22,10 @@ cd iotester
 make -f Makefile.miyoo clean
 make -f Makefile.miyoo
 ```
+or build distribution package:
+```
+make -f Makefile.miyoo gm2xpkg-ipk
+```
 
 For XYC version add ``DEVICE=XYC`` to passed variables or BITTBOY before compiling.
 
