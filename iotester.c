@@ -439,8 +439,8 @@ int main(int argc, char* argv[]) {
 		if (keys[BTN_Y]) draw_point(115, 130, 20, 20);
 #else
 		// if (keys[BTN_SELECT] && keys[BTN_START]) loop = 0;
-		if (keys[BTN_START]) draw_point(70, 100, 10, 10);
-		if (keys[BTN_SELECT]) draw_point(70, 120, 10, 10);
+		if (keys[BTN_START]) draw_point(70, 120, 10, 10);
+		if (keys[BTN_SELECT]) draw_point(70, 100, 10, 10);
 		if (keys[BTN_POWER]) draw_point(230, 0, 10, 10);
 		if (keys[BTN_BACKLIGHT]) draw_point(150, 0, 20, 10);
 		if (keys[BTN_L1]) draw_point(5, 5, 35, 15);
